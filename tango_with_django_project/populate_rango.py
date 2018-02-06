@@ -2,7 +2,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tango_with_django_project.settings')
 import django
 django.setup()
-from rango.models import Category, Page
+from rango.models import Category, Page, cat
 
 def populate(): 
 
@@ -29,18 +29,18 @@ def populate():
 		{"title": "Flask",
 		 "url": "http://flask.pocoo.org"}
 	]
+	
 
-
-	cats = [
-                {"Python": {"pages": python_pages}},
-                {"Django": {"pages": django_pages}},
-                {"Other Frameworks": {"pages": other_pages}}
-            ]
+	cats = {
+                "Python": {"pages": python_pages},
+                "Django": {"pages": django_pages},
+                "Other Frameworks": {"pages": other_pages}
+                }
                 
-for cats in cats.items():
-       c = add_cat(cat)
-       for p in cat_data["pages"]:
-      			add_page(c, p["title"], p["url"])
+for cat, cat_data in cats.items():
+        c = add_cat(cat)
+        for p in cat_data["pages"]:
+                add_page(c, p["title"], p["url"])
 
 for c in Category.objects.all():
         for p in Page.objects.filter(category=c):
